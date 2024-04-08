@@ -1,0 +1,48 @@
+/* CategoriaList.css */
+.categorias-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    grid-gap: 10px; /* Espacio entre los elementos */
+    padding: 10px; /* Espaciado alrededor del grid */
+    max-width: 500px; /* Un ancho máximo para asegurarte de que en pantallas grandes no se extienda demasiado */
+    margin: auto; /* Centrar el contenedor si es menor que el ancho de la pantalla */
+}
+
+.categoria-item {
+    background-color: #ffffff; /* Fondo blanco para las categorías */
+    border: 5px solid #797979; /* Borde sutil para cada categoría */
+    border-radius: 10px; /* Bordes redondeados */
+    display: flex; /* Centrado del contenido */
+    align-items: center; /* Alineación vertical */
+    justify-content: center; /* Alineación horizontal */
+    padding: 20px; /* Espaciado dentro de cada categoría */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+}
+
+/* El primer elemento ocupa ambas columnas */
+.categoria-item:first-child {
+    grid-column: 1 / -1;
+}
+
+
+/* Animación al pasar el mouse */
+.categoria-item:hover {
+    transform: scale(1.05); /* Aumentar ligeramente el tamaño */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada para efecto de elevación */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave para ambos cambios */
+}
+  
+  /* Asegúrate de que el cambio de tamaño no afecte el layout de otros elementos */
+.categoria-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añade la transición aquí también para un efecto suave al dejar de pasar el mouse */
+}
+  
+
+.logo-container {
+    text-align: center; /* Alinea el texto (LOGO) al centro */
+    margin: 20px 0; /* Añade un margen arriba y abajo para separarlo de otros elementos */
+    padding: 10px; /* Un poco de padding */
+    font-size: 2em; /* Aumenta el tamaño del texto para que sea notable */
+    color: #ffffff; /* Un color para el texto */
+    font-weight: bold; /* Hace que el texto sea más grueso */
+}

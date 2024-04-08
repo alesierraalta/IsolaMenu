@@ -1,7 +1,7 @@
-// components/CategoriaList.js
-
+// CategoriaList.js
 import React, { useState, useEffect } from 'react';
 import { getCategorias } from '../services/categoriaService';
+import './CategoriaList.css'; // Asegúrate de que el archivo CSS contiene los estilos que hemos definido
 
 function CategoriaList() {
     const [categorias, setCategorias] = useState([]);
@@ -16,15 +16,18 @@ function CategoriaList() {
     }, []);
 
     return (
-        <div>
-            <h2>Categorías</h2>
-            <ul>
-                {categorias.map(categoria => (
-                    <li key={categoria.ID_categoria}>{categoria.Nombre_categoria}</li>
+        <>
+            <div className="logo-container">LOGO</div> {/* Contenedor del Logo */}
+            <div className="categorias-container">
+                {categorias.map((categoria, index) => (
+                    <div key={categoria.ID_categoria} className="categoria-item">
+                        <div className="categoria-nombre">{categoria.Nombre_categoria}</div>
+                    </div>
                 ))}
-            </ul>
-        </div>
+            </div>
+        </>
     );
 }
+
 
 export default CategoriaList;

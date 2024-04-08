@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+/* App.css */
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+/* Estilos para pantallas más grandes */
+@media (min-width: 768px) {
+  .App-header {
+    padding: 40px;
+  }
+}

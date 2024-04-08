@@ -1,5 +1,7 @@
 import React from 'react';
 import CategoriaList from './components/CategoriaList';
+import './App.css';
+
 
 function App() {
   return (

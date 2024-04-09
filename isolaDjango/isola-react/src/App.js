@@ -1,15 +1,23 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CategoriaList from './components/CategoriaList';
-import './App.css';
-
+import ComidaList from './components/ComidaList'; // Asume que tienes un componente para listar las comidas
+import './App.css'; // Importa tus estilos globales
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <CategoriaList /> {/* Asegúrate de que este componente se esté renderizando */}
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header"> {/* Aquí especificas .App-header */}
+          {/* Puedes poner contenido adicional aquí, como un logo o un menú de navegación */}
+          <Routes> {/* 'Routes' para definir tus rutas */}
+            <Route path="/" element={<CategoriaList />} />
+            <Route path="/categoria/:id" element={<ComidaList />} />
+            {/* Configura más rutas según sea necesario */}
+          </Routes>
+        </header>
+      </div>
+    </Router>
   );
 }
 

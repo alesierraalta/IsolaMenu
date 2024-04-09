@@ -1,56 +1,37 @@
-/* Estilos del contenedor principal para logo, título y categorías */
+/* CategoriaList.css */
 .main-container {
-    text-align: left; /* Alinea el contenido a la izquierda */
-    max-width: 1000px; /* Máximo ancho para asegurar consistencia con .categorias-container */
-    margin: 0 auto; /* Centra el contenedor principal */
-    padding: 15px; /* Espaciado alrededor del contenido */
-}
-
-.logo-container {
-    text-align: center; /* Mantiene el logo centrado */
-    margin: 20px 0; /* Espacio arriba y abajo */
-    padding: 10px;
-    font-size: 2em;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.categorias-titulo {
-    margin: 10px 0 5px; /* Espaciado reducido encima del título y entre título y categorías */
-    font-size: 24px;
-    color: #ba8686;
-    font-weight: bold;
+    padding: 20px; /* Espaciado alrededor del contenido, como en .comidas-container */
 }
 
 .categorias-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
-    grid-gap: 10px;
-    margin: 0; /* Remueve el margen automático para evitar centrado */
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas, manteniendo la estructura de grid */
+    grid-gap: 20px; /* Espacio entre los elementos, inspirado en .comidas-lista */
 }
 
 .categoria-item {
-    background-color: #ffffff;
-    border: 10px solid #fff6b3;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-height: 60px;
+    background-color: #ffffff; /* Color de fondo */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 15px; /* Espaciado interno */
+    text-align: left; /* Alineación del texto a la izquierda */
+    min-height: 120px; /* Altura mínima para hacer los contenedores más altos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra más profunda y notoria */
+    transition: box-shadow 0.3s ease; /* Transición suave para el efecto de sombra */
 }
+
 
 .categoria-item:first-child {
     grid-column: 1 / -1; /* El primer elemento ocupa ambas columnas */
 }
 
+/* Opcional: Si deseas agregar efectos de hover similares a .comida-item */
 .categoria-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 1); /* Sombra más pronunciada */
 }
 
-.categoria-item {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.categorias-titulo, .categoria-nombre {
+    font-size: 18px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
+    margin-bottom: 10px; /* Espaciado debajo del texto */
+    color: rgb(0, 0, 0); /* Color del texto */
 }

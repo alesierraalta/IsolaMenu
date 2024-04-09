@@ -1,0 +1,46 @@
+/* ComidaList.css */
+.comidas-container {
+    padding: 20px;
+}
+
+.comidas-lista {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 columna */
+    grid-gap: 20px;
+}
+
+.comida-item {
+    display: flex; /* Usa flexbox para organizar los contenidos en filas */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.comida-info, .comida-imagen {
+    flex: 1; /* Asigna igual espacio a ambos divs dentro del .comida-item */
+    text-align: left;
+}
+
+.comida-nombre, .comida-precio {
+    margin-bottom: 10px;
+}
+
+.comida-nombre {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.comida-precio {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.comida-imagen {
+    text-align: center; /* Centra el texto "Imagen" */
+    display: flex;
+    align-items: center; /* Centra el contenido verticalmente */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    font-weight: bold;
+}

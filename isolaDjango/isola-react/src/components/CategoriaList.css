@@ -35,3 +35,21 @@
     margin-bottom: 10px; /* Espaciado debajo del texto */
     color: rgb(0, 0, 0); /* Color del texto */
 }
+
+/* Ajustes para el contenedor del logo */
+.logo-container {
+    color: #ffffff; /* Letra blanca */
+    font-size: 2em; /* Tamaño de letra grande */
+    font-weight: bold; /* Letra gruesa */
+    margin-bottom: 100px; /* Espaciado hacia abajo para separarlo del resto */
+    margin-top: 50px; /* Espaciado hacia abajo para separarlo del resto */
+    text-align: center; /* Asegura que el logo esté centrado */
+}
+
+/* Ajustes para el título de categorías */
+.categorias-titulo {
+    color: #ffffff; /* Letra blanca */
+    text-align: left; /* Alineado a la izquierda */
+    margin-left: 20px; /* Espaciado desde el lado izquierdo para darle más énfasis */
+    font-size: 1.5em; /* Tamaño de letra adecuado para un título */
+}

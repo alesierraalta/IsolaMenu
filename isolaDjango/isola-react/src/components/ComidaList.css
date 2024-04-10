@@ -3,6 +3,44 @@
     padding: 20px;
 }
 
+.plato-titulo {
+    color: #ffffff; /* Color de letra blanca */
+    text-align: left; /* Alineación a la izquierda */
+    margin: 20px 0 20px; /* Espaciado arriba y abajo para separación con otros elementos */
+    font-size: 3.5em; /* Tamaño de letra adecuado */
+}
+
+
+
+.comidas-container {
+    padding: 20px;
+}
+
+.categoria-imagen-container {
+    background-color: #e0e0e0; /* Color de fondo para simular la imagen */
+    height: 300px; /* Altura del contenedor de la imagen de la categoría */
+    display: flex; /* Para centrar el texto dentro del contenedor */
+    align-items: center; /* Centra el texto verticalmente */
+    justify-content: center; /* Centra el texto horizontalmente */
+    margin: 0 0 70px 0; /* Solo margen inferior */
+    border-radius: 10px; /* Bordes redondeados para consistencia */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    font-size: 24px; /* Tamaño de fuente para el texto */
+    font-weight: bold; /* Peso de la fuente */
+    color: #555; /* Color del texto */
+}
+
+
+
+
+.comidas-lista {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 columna */
+    grid-gap: 20px;
+}
+
+
+
 .comidas-lista {
     display: grid;
     grid-template-columns: 1fr; /* 1 columna */

@@ -18,7 +18,10 @@ function ComidaList() {
 
     return (
         <div className="comidas-container">
-            <h2>Comidas en Categoría {id}</h2>
+            <div className="categoria-imagen-container">
+                <span>Imagen Categoría</span>
+            </div>
+            <h2 className="plato-titulo">Platos</h2>
             <div className="comidas-lista">
                 {comidas.map(comida => (
                     <div key={comida.ID_comida} className="comida-item">

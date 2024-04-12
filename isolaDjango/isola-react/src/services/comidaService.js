@@ -4,7 +4,7 @@ const API_BASE_URL = 'http://127.0.0.1:8000/api/menu'; // Ajusta según sea nece
 
 export const getComidasPorCategoria = async (categoriaId) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/comidas/?categoria=${categoriaId}`);
+        const response = await fetch(`${API_BASE_URL}/comidas/categoria/${categoriaId}/`); // Ajusta la URL según tu backend
         if (!response.ok) {
             throw new Error('Error al obtener comidas');
         }
@@ -14,3 +14,4 @@ export const getComidasPorCategoria = async (categoriaId) => {
         return [];
     }
 };
+

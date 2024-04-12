@@ -1,0 +1,29 @@
+/* ComidaDetalle.css */
+
+.comida-detalle-swiper {
+  width: 100%;
+  height: 100vh;
+}
+
+.comida-detalle-slide .comida-detalle-video-simulado {
+  background-color: #000;
+  color: #fff;
+  height: 100%; /* Ajusta esto según lo que necesites para el área de 'video' */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.comida-detalle-slide .comida-detalle-info {
+  position: absolute;
+  bottom: 50px; /* Aumentado de 10px a 50px para mover el texto más arriba */
+  left: 10px;
+  color: #fff;
+  text-align: left;
+}
+
+.comida-detalle-slide .comida-detalle-info h2, .comida-detalle-slide .comida-detalle-info p {
+  margin: 4px 0;
+}

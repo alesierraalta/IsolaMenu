@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CategoriaList from './components/CategoriaList';
 import ComidaList from './components/ComidaList'; // Asume que tienes un componente para listar las comidas
 import './App.css'; // Importa tus estilos globales
+import ComidaDetalle from './components/ComidaDetalle'; // Asegúrate de importar el componente
+
 
 function App() {
   return (
@@ -13,6 +15,9 @@ function App() {
           <Routes> {/* 'Routes' para definir tus rutas */}
             <Route path="/" element={<CategoriaList />} />
             <Route path="/categoria/:id" element={<ComidaList />} />
+            <Route path="/categoria/:categoriaId/comida/:comidaId" element={<ComidaDetalle />} />
+
+
             {/* Configura más rutas según sea necesario */}
           </Routes>
         </header>

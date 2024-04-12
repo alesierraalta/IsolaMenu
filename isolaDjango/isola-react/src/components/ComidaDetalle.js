@@ -1,3 +1,5 @@
+// components/ComidaDetalle.js
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -26,16 +28,15 @@ function ComidaDetalle() {
             slidesPerView={1}
             spaceBetween={30}
             pagination={{ clickable: true }}
-            navigation={true}
             className="comida-detalle-swiper"
         >
             {comidas.map((comida) => (
                 <SwiperSlide key={comida.ID_comida} className="comida-detalle-slide">
                     <div className="comida-detalle-video-simulado">
-                        {/* "Video" */}
+                        <h2>Video platillo</h2> {/* Simulación de video */}
                         <div className="comida-detalle-info">
                             <h2>{comida.Nombre_comida}</h2>
-                            <p>{comida.Descripcion_comida}</p>
+                            <p className="comida-descripcion">{comida.Descripcion_comida}</p>
                             <p>${comida.Precio_comida}</p>
                         </div>
                     </div>

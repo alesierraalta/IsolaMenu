@@ -1,10 +1,12 @@
+// components/ComidaList.js
+
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getComidasPorCategoria } from '../services/comidaService';
 import './ComidaList.css'; // Asegúrate de tener los estilos adecuados
 
 function ComidaList() {
-    let { id } = useParams(); // Obtiene el ID de categoría de los parámetros de la ruta
+    const { id } = useParams();
     const [comidas, setComidas] = useState([]);
 
     useEffect(() => {
@@ -14,7 +16,7 @@ function ComidaList() {
         };
 
         fetchData();
-    }, [id]); // La dependencia [id] asegura que useEffect se ejecute de nuevo si el ID de categoría cambia
+    }, [id]);
 
     return (
         <div className="comidas-container">
@@ -24,13 +26,13 @@ function ComidaList() {
             <h2 className="plato-titulo">Platos</h2>
             <div className="comidas-lista">
                 {comidas.map(comida => (
-                    <div key={comida.ID_comida} className="comida-item">
+                    <Link to={`/categoria/${id}/comida/${comida.ID_comida}`} key={comida.ID_comida} className="comida-item">
                         <div className="comida-info">
                             <div className="comida-nombre">{comida.Nombre_comida}</div>
                             <div className="comida-precio">${comida.Precio_comida}</div>
                         </div>
                         <div className="comida-imagen">Imagen</div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>

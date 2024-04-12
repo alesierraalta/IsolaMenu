@@ -8,8 +8,9 @@
 .comida-detalle-slide .comida-detalle-video-simulado {
   background-color: #000;
   color: #fff;
-  height: 100%; /* Ajusta esto según lo que necesites para el área de 'video' */
+  height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -18,12 +19,18 @@
 
 .comida-detalle-slide .comida-detalle-info {
   position: absolute;
-  bottom: 50px; /* Aumentado de 10px a 50px para mover el texto más arriba */
+  bottom: 10px;
   left: 10px;
-  color: #fff;
   text-align: left;
+  color: #fff;
 }
 
-.comida-detalle-slide .comida-detalle-info h2, .comida-detalle-slide .comida-detalle-info p {
+.comida-detalle-slide .comida-detalle-info h2, 
+.comida-detalle-slide .comida-detalle-info p {
   margin: 4px 0;
+}
+
+.comida-detalle-slide .comida-descripcion {
+  max-width: 80%;  /* Limita el ancho del texto de descripción para mejorar la legibilidad */
+  margin: 10px auto; /* Centrado y espaciado */
 }

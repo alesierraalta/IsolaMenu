@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from .models import Categoria, Comida
+from django.db import IntegrityError  # Importa IntegrityError
 
 class CategoriaModelTest(TestCase):
 
@@ -13,6 +14,19 @@ class CategoriaModelTest(TestCase):
         """ Prueba que el método __str__ de Categoria devuelve el nombre de la categoría. """
         categoria = Categoria(Nombre_categoria='Postres')
         self.assertEqual(str(categoria), 'Postres')
+
+    def test_creacion_categoria_sin_nombre(self):
+        """ Prueba la creación de una categoría sin nombre para validar la restricción de campo requerido. """
+        categoria = Categoria(Nombre_categoria='')
+        with self.assertRaises(ValidationError):
+            categoria.full_clean()
+
+    def test_nombre_categoria_unico(self):
+        """ Prueba que los nombres de las categorías sean únicos. """
+        Categoria.objects.create(Nombre_categoria='Entrantes')
+        # Debes usar IntegrityError para capturar errores de unicidad de la base de datos
+        with self.assertRaises(IntegrityError):
+            Categoria.objects.create(Nombre_categoria='Entrantes')
 
 class ComidaModelTest(TestCase):
 
@@ -50,3 +64,26 @@ class ComidaModelTest(TestCase):
         )
         with self.assertRaises(ValidationError):
             comida.full_clean()
+
+    def test_crear_comida_con_categoria_invalida(self):
+        """ Prueba creación de comida con una categoría que no existe. """
+        with self.assertRaises(ValidationError):
+            comida = Comida(
+                Categoria_id=999,
+                Nombre_comida='Fantasma',
+                Descripcion_comida='No debería existir',
+                Precio_comida=10.00
+            )
+            comida.full_clean()
+
+    def test_cambio_de_precio(self):
+        """ Prueba la actualización del precio de una comida existente. """
+        comida = Comida.objects.create(
+            Categoria=self.categoria,
+            Nombre_comida='Sopa de Tomate',
+            Descripcion_comida='Sopa',
+            Precio_comida=5.00
+        )
+        comida.Precio_comida = 5.50
+        comida.save()
+        self.assertEqual(comida.Precio_comida, 5.50)

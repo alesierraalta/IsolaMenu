@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%n&umph$e)+-$!lu!3k++@6%w^5xap5$b0dfmrn88q-9*bj-ju'
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -88,11 +89,11 @@ WSGI_APPLICATION = 'isolaDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Isola',  # Nombre de tu base de datos en PostgreSQL
-        'USER': 'postgres',  # Tu usuario de PostgreSQL
-        'PASSWORD': '050403',  # Tu contraseña de PostgreSQL
-        'HOST': 'localhost',  # O la dirección IP del servidor de tu base de datos
-        'PORT': '5432',  # El puerto predeterminado de PostgreSQL
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

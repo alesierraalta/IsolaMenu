@@ -1,0 +1,48 @@
+
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  django:
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./Backend:/app/Backend
+      - static_volume:/app/backend/staticfiles
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+    env_file:
+      - .env
+
+  react:
+    build: 
+      context: ./isola-react
+      dockerfile: Dockerfile
+    volumes:
+      - ./isola-react:/app/frontend
+      - /app/frontend/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - django
+    environment:
+      REACT_APP_BACKEND_URL: http://django:8000
+
+volumes:
+  postgres_data:
+  static_volume:

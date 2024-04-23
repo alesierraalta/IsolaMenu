@@ -18,11 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:12  # Use the PostgreSQL version that matches your production setup
+        image: postgres:16
         env:
-          POSTGRES_DB: test_db
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
         ports:
           - 5432:5432
         options: >-
@@ -59,7 +59,11 @@ jobs:
 
       - name: Set up test database environment variables
         run: |
-          echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/test_db" >> $GITHUB_ENV
+          echo "DATABASE_HOST=postgres" >> $GITHUB_ENV
+          echo "DATABASE_NAME=test_db" >> $GITHUB_ENV
+          echo "DATABASE_USER=postgres" >> $GITHUB_ENV
+          echo "DATABASE_PASSWORD=postgres" >> $GITHUB_ENV
+          echo "DATABASE_PORT=5432" >> $GITHUB_ENV
 
       - name: Run Tests
         run: |

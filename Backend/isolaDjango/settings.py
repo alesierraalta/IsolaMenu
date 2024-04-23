@@ -92,13 +92,14 @@ WSGI_APPLICATION = 'isolaDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'test_db'),
-        'USER': os.getenv('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
-        'HOST': 'postgres',  # Use 'localhost' if running locally, use 'postgres' if running in GitHub Actions
-        'PORT': '5432',
+        'NAME': os.getenv('DATABASE_NAME', 'default_db_name'),
+        'USER': os.getenv('DATABASE_USER', 'default_user'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'default_password'),
+        'HOST': os.getenv('DATABASE_HOST', 'localhost'),  # Should default to 'localhost' when not running in CI
+        'PORT': os.getenv('DATABASE_PORT', '5432'),  # Default port for PostgreSQL
     }
 }
+
 
 
 

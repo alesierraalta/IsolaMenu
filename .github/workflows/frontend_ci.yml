@@ -1,0 +1,49 @@
+name: Frontend CI Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - 'isola-react/**'
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'isola-react/**'
+
+jobs:
+  frontend-build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '21.7.2'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          cd isola-react
+          npm install
+
+      - name: Run Tests
+        run: |
+          cd isola-react
+          npm test
+
+      - name: Lint with ESLint
+        run: |
+          cd isola-react
+          npm run lint
+
+      - name: Notification of Build Result
+        if: always()
+        uses: some-notification-action@v1
+        with:
+          status: ${{ job.status }}
+          webhook-url: ${{ secrets.WEBHOOK_URL }}

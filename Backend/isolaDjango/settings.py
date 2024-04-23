@@ -92,11 +92,11 @@ WSGI_APPLICATION = 'isolaDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME', 'default_db_name'),
+        'NAME': os.getenv('DATABASE_NAME', 'default_db_name'),  # Fallback to a default if not set
         'USER': os.getenv('DATABASE_USER', 'default_user'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'default_password'),
-        'HOST': os.getenv('DATABASE_HOST', 'localhost'),  # Should default to 'localhost' when not running in CI
-        'PORT': os.getenv('DATABASE_PORT', '5432'),  # Default port for PostgreSQL
+        'HOST': os.getenv('DATABASE_HOST', 'localhost'),  # Fallback to localhost if not set by CI
+        'PORT': os.getenv('DATABASE_PORT', '5432'),  # Standard PostgreSQL port
     }
 }
 

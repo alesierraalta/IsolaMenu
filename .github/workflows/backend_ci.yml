@@ -60,10 +60,11 @@ jobs:
       - name: Set up test database environment variables
         run: |
           echo "DATABASE_HOST=postgres" >> $GITHUB_ENV
-          echo "DATABASE_NAME=test_db" >> $GITHUB_ENV
-          echo "DATABASE_USER=postgres" >> $GITHUB_ENV
-          echo "DATABASE_PASSWORD=postgres" >> $GITHUB_ENV
+          echo "DATABASE_NAME=${{ secrets.POSTGRES_DB }}" >> $GITHUB_ENV
+          echo "DATABASE_USER=${{ secrets.POSTGRES_USER }}" >> $GITHUB_ENV
+          echo "DATABASE_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
           echo "DATABASE_PORT=5432" >> $GITHUB_ENV
+
 
       - name: Run Tests
         run: |

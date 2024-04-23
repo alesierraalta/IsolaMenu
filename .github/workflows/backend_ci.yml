@@ -1,9 +1,10 @@
 name: Backend CI Pipeline
 
 on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
   push:
     branches:
-      - '*'  # Changed from '**' to '*' to ensure it captures all branches.
+      - '*'  # Corrected from '**' to '*' to ensure it captures all branches.
     paths:
       - 'Backend/**'
   pull_request:
@@ -21,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Ensure you're using the correct version of the action
 
       - name: Set up Python
         uses: actions/setup-python@v3

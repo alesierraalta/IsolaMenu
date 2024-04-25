@@ -1,0 +1,42 @@
+# Ignorar archivos de metadata de Git
+.git/
+
+# Ignorar archivos de entorno de Node
+isola-react/node_modules/
+
+# Ignorar archivos de entorno de Python
+Backend/*.pyc
+Backend/__pycache__/
+
+# Ignorar archivos de logs y datos que no deberían estar en la imagen
+*.log
+data/
+
+# Ignorar directorios y archivos específicos que no son necesarios para la construcción
+isola-react/src/
+isola-react/public/
+Backend/isolaDjango/
+
+# Ignorar el directorio de Node modules
+**/node_modules
+
+# Ignorar el directorio de entornos virtuales de Python
+**/venv
+**/env
+
+# Ignorar archivos de configuración locales no necesarios
+**/.env
+
+# Ignorar directorios de control de versiones
+**/.git
+**/.gitignore
+
+# Archivos temporales o de logs
+**/*.log
+**/*.tmp
+**/*.pyc
+
+# Ignorar archivos de configuración específicos de IDE
+**/.vscode
+**/*.sublime-project
+**/*.sublime-workspace

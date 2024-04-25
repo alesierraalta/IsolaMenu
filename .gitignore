@@ -10,4 +10,13 @@ __pycache__
 *.pyo
 *.pyd
 backend/__pycache__
+*.log
+.cache
+node_modules/
+.vscode/
+.idea/
+*.sublime*
+.vscode/
+.idea/
+*.sublime*
 

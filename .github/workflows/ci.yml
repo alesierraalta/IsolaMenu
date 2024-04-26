@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}  # Make sure this is POSTGRES_PASSWORD
         ports:
           - 5432:5432
         options: >-

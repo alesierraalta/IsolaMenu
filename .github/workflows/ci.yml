@@ -11,23 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      # Setup the PostgreSQL service
       db:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}  # Database name from secrets
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}  # Database user from secrets
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}  # Database password from secrets, ensure it's set in GitHub Secrets
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}  # Ensure this is populated
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}  # Ensure this is populated
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}  # Critical: Ensure this is populated and correct
         ports:
-          - 5432:5432  # Port mapping
+          - 5432:5432
         options: >-
-          --health-cmd "pg_isready -h db -p 5432"  # Health check command
+          --health-cmd "pg_isready -h db -p 5432"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v3  # Checkout code
+      - uses: actions/checkout@v3
 
       - name: Set up Python 3
         uses: actions/setup-python@v3
@@ -40,12 +39,12 @@ jobs:
           node-version: '21'
     
       - name: Install backend dependencies
-        run: pip install -r Backend/requirements.txt  # Install Python dependencies
+        run: pip install -r Backend/requirements.txt
 
       - name: Install frontend dependencies
         run: |
           cd frontend
-          npm install  # Install Node.js dependencies
+          npm install
 
       - name: Wait for db to be ready
         run: |
@@ -56,16 +55,16 @@ jobs:
           done
 
       - name: Ping db
-        run: ping -c 4 db  # Network check
+        run: ping -c 4 db
 
       - name: Test PostgreSQL Connection
         run: |
-          psql -h db -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT 'Connection successful.';"  # Test DB connection
+          psql -h db -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT 'Connection successful.';"
 
       - name: Run tests
         run: |
           cd Backend
-          python manage.py test  # Run Django tests
+          python manage.py test
 
   build-and-push-docker:
     needs: build-and-test
@@ -77,10 +76,10 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}  # Log in to Docker Hub
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest  # Build and push Docker image
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      db:  # Change this to 'db' to match your Django DATABASES HOST setting
+      db:  # Make sure this name matches the 'HOST' in your Django DATABASES setting
         image: postgres:latest
         env:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -45,6 +45,12 @@ jobs:
         run: |
           cd frontend
           npm install
+
+      - name: Check PostgreSQL Connection
+        run: |
+          sudo apt-get update
+          sudo apt-get install postgresql-client -y
+          psql -h db -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT 'Connection successful.';"
 
       - name: Run tests
         run: |

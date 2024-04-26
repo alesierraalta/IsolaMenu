@@ -59,7 +59,7 @@ jobs:
 
       - name: Test PostgreSQL Connection
         run: |
-          psql -h db -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT 'Connection successful.';"
+          psql -h db -U -d -c "SELECT 'Connection successful.';"
 
       - name: Run tests
         run: |

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
+      db:  # Change this to 'db' to match your Django DATABASES HOST setting
         image: postgres:latest
         env:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -53,7 +53,7 @@ jobs:
 
       - name: Clean up PostgreSQL service
         if: always()
-        run: docker stop ${{ job.services.postgres.id }}
+        run: docker stop ${{ job.services.db.id }}
 
   build-and-push-docker:
     needs: build-and-test

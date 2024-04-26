@@ -14,13 +14,13 @@ jobs:
       db:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}  # Ensure this is populated
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}  # Ensure this is populated
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}  # Critical: Ensure this is populated and correct
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}  # Ensure this value is set in GitHub Secrets
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}  # Ensure this value is set in GitHub Secrets
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}  # Ensure this value is set and correctly passed
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -h db -p 5432"
+          --health-cmd "pg_isready -h db -p 5432"  # Health check to confirm DB is ready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5

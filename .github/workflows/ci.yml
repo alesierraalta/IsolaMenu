@@ -20,7 +20,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -h db"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -46,11 +46,20 @@ jobs:
           cd frontend
           npm install
 
-      - name: Check db hostname resolution
+      - name: Wait for db to be ready
+        run: |
+          for i in {1..30}; do
+            pg_isready -h db -p 5432 -U ${{ secrets.POSTGRES_USER }} && echo "DB is ready!" && break
+            echo "Waiting for DB to be ready..."
+            sleep 2
+          done
+
+      - name: Ping db
         run: ping -c 4 db
 
       - name: Test PostgreSQL Connection
-        run: psql -h db -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT 'Connection successful.';"
+        run: |
+          psql -h db -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT 'Connection successful.';"
 
       - name: Run tests
         run: |

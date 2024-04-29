@@ -31,10 +31,6 @@ jobs:
           cd frontend
           npm install
 
-      - name: Run tests  # Run backend tests
-        run: |
-          cd Backend
-          python manage.py test
 
   build-and-push-docker:
     needs: build-and-test

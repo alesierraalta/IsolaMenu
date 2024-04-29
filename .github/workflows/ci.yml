@@ -14,18 +14,16 @@ jobs:
       db:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}  # Ensure this matches the name in your secrets
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}  # Correct secret name from the screenshot
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}  # Correct secret name from the screenshot
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -h localhost -p 5432"
+          --health-cmd "pg_isready -h localhost -p 5432 -U ${{ secrets.POSTGRES_USER }}"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
-
 
     steps:
       - uses: actions/checkout@v3
@@ -56,12 +54,11 @@ jobs:
             sleep 2
           done  
 
-      - name: Ping db
-        run: ping -c 4 db
+      # Removed the 'Ping db' step
 
       - name: Test PostgreSQL Connection
         run: |
-          psql -h db -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT 'Connection successful.';"
+          psql -h localhost -p 5432 -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "SELECT 'Connection successful.';"
 
       - name: Run tests
         run: |

@@ -14,13 +14,13 @@ jobs:
       db:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}  # Ensure this is correctly set in secrets
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}  # Ensure this is correctly set in secrets
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}  # Critical: Make sure this is set in secrets
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -h db -p 5432"  # Health check command
+          --health-cmd "pg_isready -U ${{ secrets.POSTGRES_USER }} -h localhost -p 5432"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5

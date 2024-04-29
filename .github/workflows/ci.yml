@@ -32,20 +32,52 @@ jobs:
           npm install
 
 
-  build-and-push-docker:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3  # Checkout the code again for Docker build
 
-      - name: Log in to Docker Hub  # Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and push Docker image  # Build and push the Docker image
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
+ 
+  build-and-push-backend:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3  # Checkout the repository content
+  
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+  
+        - name: Log in to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKER_HUB_USERNAME }}
+            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+  
+        - name: Build and push Docker image for backend
+          uses: docker/build-push-action@v4
+          with:
+            context: ./backend  # Set the context to the backend directory
+            file: ./backend/Dockerfile  # Path to the Dockerfile in the backend directory
+            tags: yourusername/isola-backend:latest  # Change to your Docker Hub repo and tag
+            push: true
+
+  build-and-push-frontend:
+      runs-on: ubuntu-latest
+      needs: build-and-push-backend
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+  
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+  
+        - name: Log in to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKER_HUB_USERNAME }}
+            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+  
+        - name: Build and push Docker image for frontend
+          uses: docker/build-push-action@v4
+          with:
+            context: ./frontend  # Set the context to the frontend directory
+            file: ./frontend/Dockerfile  # Path to the Dockerfile in the frontend directory
+            tags: yourusername/isola-frontend:latest  # Change to your Docker Hub repo and tag
+            push: true

@@ -31,53 +31,49 @@ jobs:
           cd frontend
           npm install
 
-
-
-
- 
   build-and-push-backend:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3  # Checkout the repository content
-  
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v1
-  
-        - name: Log in to Docker Hub
-          uses: docker/login-action@v3
-          with:
-            username: ${{ secrets.DOCKER_HUB_USERNAME }}
-            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-  
-        - name: Build and push Docker image for backend
-          uses: docker/build-push-action@v4
-          with:
-            context: ./Backend  # Set the context to the backend directory
-            file: ./Backend/Dockerfile  # Path to the Dockerfile in the backend directory
-            tags: ${{ secrets.DOCKER_REPOSITORY }}/isolamenu-backend:latest  # Use DOCKER_REPOSITORY secret for the Docker image repository
-            push: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Checkout the repository content
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}  # Use DOCKER_HUB_USERNAME secret for Docker Hub login
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}  # Use DOCKER_HUB_ACCESS_TOKEN secret for Docker Hub password
+
+      - name: Build and push Docker image for backend
+        uses: docker/build-push-action@v4
+        with:
+          context: ./Backend
+          file: ./Backend/Dockerfile
+          tags: alesierraalta/isola_menu:backend-latest  # Use your Docker Hub repo and specify the backend tag
+          push: true
 
   build-and-push-frontend:
-      runs-on: ubuntu-latest
-      needs: build-and-push-backend
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
-  
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v1
-  
-        - name: Log in to Docker Hub
-          uses: docker/login-action@v3
-          with:
-            username: ${{ secrets.DOCKER_HUB_USERNAME }}
-            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-  
-        - name: Build and push Docker image for frontend
-          uses: docker/build-push-action@v4
-          with:
-            context: ./frontend  # Set the context to the frontend directory
-            file: ./frontend/Dockerfile  # Path to the Dockerfile in the frontend directory
-            tags: ${{ secrets.DOCKER_REPOSITORY }}/isolamenu-frontend:latest
-            push: true
+    runs-on: ubuntu-latest
+    needs: build-and-push-backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push Docker image for frontend
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          tags: alesierraalta/isola_menu:frontend-latest  # Use your Docker Hub repo and specify the frontend tag
+          push: true

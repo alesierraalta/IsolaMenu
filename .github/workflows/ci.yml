@@ -53,8 +53,8 @@ jobs:
         - name: Build and push Docker image for backend
           uses: docker/build-push-action@v4
           with:
-            context: ./backend  # Set the context to the backend directory
-            file: ./backend/Dockerfile  # Path to the Dockerfile in the backend directory
+            context: ./Backend  # Set the context to the backend directory
+            file: ./Backend/Dockerfile  # Path to the Dockerfile in the backend directory
             tags: yourusername/isola-backend:latest  # Change to your Docker Hub repo and tag
             push: true
 

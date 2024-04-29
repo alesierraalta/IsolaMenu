@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': 'db',  # Uses the service name defined in docker-compose.yml
+        'HOST': 'localhost',  # Uses the service name defined in docker-compose.yml
         'PORT': '5432',
     }
 }

@@ -55,7 +55,7 @@ jobs:
           with:
             context: ./Backend  # Set the context to the backend directory
             file: ./Backend/Dockerfile  # Path to the Dockerfile in the backend directory
-            tags: yourusername/isola-backend:latest  # Change to your Docker Hub repo and tag
+            tags: ${{ secrets.DOCKER_REPOSITORY }}/isolamenu-backend:latest  # Use DOCKER_REPOSITORY secret for the Docker image repository
             push: true
 
   build-and-push-frontend:
@@ -79,5 +79,5 @@ jobs:
           with:
             context: ./frontend  # Set the context to the frontend directory
             file: ./frontend/Dockerfile  # Path to the Dockerfile in the frontend directory
-            tags: yourusername/isola-frontend:latest  # Change to your Docker Hub repo and tag
+            tags: ${{ secrets.DOCKER_REPOSITORY }}/isolamenu-frontend:latest
             push: true

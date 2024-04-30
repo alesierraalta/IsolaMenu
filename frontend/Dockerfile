@@ -23,7 +23,7 @@ COPY . .
 # RUN chmod +x -R node_modules/
 
 # Build the React app
-RUN npm run build
+RUN npm run start
 
 # Expose the port the app runs on
 EXPOSE 3001

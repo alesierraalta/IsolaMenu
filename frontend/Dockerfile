@@ -10,20 +10,14 @@ USER root
 # Copy both package.json AND package-lock.json
 COPY package*.json ./
 
-# Install project dependencies
-RUN npm install
-
-# If you are copying over the `node_modules` directory, make sure to clear it first
-# RUN rm -rf node_modules/
+# Clear the npm cache and install project dependencies
+RUN npm cache clean --force && npm install
 
 # Copy the rest of the client app
 COPY . .
 
-# Try giving executable permissions to the node_modules directory
-# RUN chmod +x -R node_modules/
-
-# Build the React app
-RUN npm run build
+# Build the React app using npx to run react-scripts
+RUN npx react-scripts build
 
 # Expose the port the app runs on
 EXPOSE 3001

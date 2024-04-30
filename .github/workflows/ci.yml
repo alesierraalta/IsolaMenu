@@ -75,5 +75,5 @@ jobs:
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
-          tags: alesierraalta/isola_menu:frontend-latest  # Use your Docker Hub repo and specify the frontend tag
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
           push: true

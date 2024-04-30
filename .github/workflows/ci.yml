@@ -51,7 +51,7 @@ jobs:
         with:
           context: ./Backend
           file: ./Backend/Dockerfile
-          tags: alesierraalta/isola_menu:backend-latest  # Use your Docker Hub repo and specify the backend tag
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}backend-latest  # Use your Docker Hub repo and specify the backend tag
           push: true
 
   build-and-push-frontend:
@@ -75,5 +75,5 @@ jobs:
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:frontend-latest
           push: true

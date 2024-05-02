@@ -13,8 +13,11 @@ RUN npm install
 # Copy the rest of the client app
 COPY . .
 
-# Build the React app
-RUN npm run build
+# Fix permissions in node_modules/.bin
+RUN chmod +x node_modules/.bin/*
+
+# Build the React app using npx to run react-scripts
+RUN npx react-scripts build
 
 # Expose the port the app runs on
 EXPOSE 3001

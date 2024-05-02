@@ -17,29 +17,19 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: '3.10'
-      
-      - name: Set up Node.js  # Setup Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: '21'
-    
+
       - name: Install backend dependencies  # Install backend Python dependencies
         run: pip install -r Backend/requirements.txt
 
-      - name: Install frontend dependencies  # Install frontend Node dependencies
-        run: |
-          cd frontend
-          npm install
-
-      - name: Run backend tests  # Execute backend tests
+      - name: Run backend tests for menu app  # Execute tests for the 'menu' app
         run: |
           cd Backend
-          python -m unittest discover
+          python manage.py test menu
 
-      - name: Run frontend tests  # Execute frontend tests
+      - name: Run backend tests for multimedia app  # Execute tests for the 'multimedia' app
         run: |
-          cd frontend
-          npm test
+          cd Backend
+          python manage.py test multimedia
 
   build-and-push-backend:
     runs-on: ubuntu-latest
@@ -62,7 +52,7 @@ jobs:
         with:
           context: ./Backend
           file: ./Backend/Dockerfile
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}backend-latest  # Use your Docker Hub repo and specify the backend tag
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:backend-latest  # Use your Docker Hub repo and specify the backend tag
           push: true
 
   build-and-push-frontend:

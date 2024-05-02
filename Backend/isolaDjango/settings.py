@@ -90,16 +90,22 @@ WSGI_APPLICATION = 'isolaDjango.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': 'db',  # Uses the service name defined in docker-compose.yml
+        'NAME': os.getenv('POSTGRES_DATABASE', 'verceldb'),
+        'USER': os.getenv('POSTGRES_USER', 'default'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'mz95QWdpVHYC'),
+        'HOST': os.getenv('POSTGRES_HOST', 'ep-gentle-bush-a4t30q1a-pooler.us-east-1.aws.neon.tech'),
         'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',  # Usa SSL para mayor seguridad
+        }
     }
 }
+
 
 
 

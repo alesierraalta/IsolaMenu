@@ -24,12 +24,12 @@ jobs:
       - name: Run backend tests for menu app  # Execute tests for the 'menu' app
         run: |
           cd Backend
-          python manage.py test menu
+          python manage.py test menu --keepdb
 
       - name: Run backend tests for multimedia app  # Execute tests for the 'multimedia' app
         run: |
           cd Backend
-          python manage.py test multimedia
+          python manage.py test multimedia --keepdb
 
   build-and-push-backend:
     runs-on: ubuntu-latest

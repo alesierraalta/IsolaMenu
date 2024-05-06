@@ -3,23 +3,17 @@
   "builds": [
     {
       "src": "manage.py",
-      "use": "@vercel/python",
-      "config": {
-        "zeroConfig": true
-      }
+      "use": "@vercel/python"
     },
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "frontend/build",
-        "buildCommand": "npm install --unsafe-perm && chmod +x ./node_modules/.bin/react-scripts && npm run build"
+        "buildCommand": "npm run custom-build"
       }
     }
   ],
-  "env": {
-    "NODE_VERSION": "21"
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",

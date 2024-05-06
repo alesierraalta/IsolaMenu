@@ -13,7 +13,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "frontend/build",
-        "buildCommand": "npm run build --unsafe-perm"
+        "buildCommand": "npm install --unsafe-perm && chmod +x ./node_modules/.bin/react-scripts && npm run build"
       }
     }
   ],

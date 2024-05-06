@@ -13,10 +13,13 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "frontend/build",
-        "buildCommand": "chmod +x ./node_modules/.bin/react-scripts && npm run build"
+        "buildCommand": "npm run build --unsafe-perm"
       }
     }
   ],
+  "env": {
+    "NODE_VERSION": "21"
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",

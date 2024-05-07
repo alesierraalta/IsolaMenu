@@ -1,27 +1,26 @@
 {
-  "version": 2,
   "builds": [
     {
-      "src": "manage.py",
+      "src": "backend/manage.py",
       "use": "@vercel/python"
     },
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/build",
-        "buildCommand": "npm run custom-build"
+        "distDir": "build",
+        "buildCommand": "npm run build"
       }
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/manage.py"
+      "src": "/api/(.*)",
+      "dest": "/backend/manage.py"
     },
     {
-      "source": "/(.*)",
-      "destination": "/frontend/build/index.html"
+      "src": "/(.*)",
+      "dest": "/frontend/build/index.html"
     }
   ]
 }

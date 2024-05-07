@@ -1,0 +1,26 @@
+# .vercelignore
+
+# Ignorar directorios de desarrollo
+node_modules
+__pycache__
+*.pyc
+
+# Ignorar archivos de configuración de desarrollo
+.vscode
+.idea
+
+# Ignorar archivos ocultos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos de documentación
+docs/
+*.md
+
+# Ignorar archivos de test
+tests/
+test/
+
+# Ignorar otros archivos que no son necesarios para el despliegue
+.env
+*.log

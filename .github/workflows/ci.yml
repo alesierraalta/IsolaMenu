@@ -20,10 +20,6 @@ jobs:
 
       - name: Install backend dependencies  # Install backend Python dependencies
         run: pip install -r Backend/requirements.txt
-        
-      - name: Terminate Database Sessions  # Terminate all active database sessions
-        run: |
-          PGPASSWORD=your_password psql -h localhost -U your_user -d postgres -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'test_verceldb' AND pid <> pg_backend_pid();"
 
       - name: Flush and recreate the test database  # Prepare test database
         run: |

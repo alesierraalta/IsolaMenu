@@ -11,30 +11,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3  # Checkout the code
+      - uses: actions/checkout@v3
 
-      - name: Set up Python 3  # Setup Python environment
+      - name: Set up Python 3
         uses: actions/setup-python@v3
         with:
           python-version: '3.10'
 
-      - name: Install backend dependencies  # Install backend Python dependencies
+      - name: Install backend dependencies
         run: pip install -r Backend/requirements.txt
 
-      - name: Check database service status  # Ensure the database service is running
+      - name: Check Active Connections
         run: |
-          if ! pg_isready -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }}; then
-            echo "Database service is not running. Attempting to restart..."
-            sudo service postgresql restart  # This command may vary based on your CI environment
-          else
-            echo "Database service is running."
-          fi
+          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -c "SELECT pid, usename, state, query FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}';"
         env:
           PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
-      - name: Force Terminate All Connections to Database
+      - name: Terminate Idle Connections
         run: |
-          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DATABASE }} -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}';"
+          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}' AND state = 'idle';"
+        env:
+          PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+      - name: Verify Database Service Status
+        run: |
+          if ! pg_isready -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }}; then
+            echo "Database service is not running. Attempting to restart..."
+            sudo service postgresql restart
+          else
+            echo "Database service is running."
+          fi
         env:
           PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
@@ -47,6 +53,7 @@ jobs:
         run: |
           cd Backend
           python manage.py test multimedia --noinput
+
 
 
 

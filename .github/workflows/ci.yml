@@ -11,37 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3  # Checkout the code
+      - uses: actions/checkout@v3
 
-      - name: Set up Python 3  # Setup Python environment
+      - name: Set up Python 3
         uses: actions/setup-python@v3
         with:
           python-version: '3.10'
 
-      - name: Install backend dependencies  # Install backend Python dependencies
+      - name: Install backend dependencies
         run: pip install -r Backend/requirements.txt
 
-      - name: Check Active Connections
+      - name: List Active Connections Before Termination
         run: |
-          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DATABASE }} -c "SELECT * FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}';"
+          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DATABASE }} -c "SELECT pid, usename, application_name, client_addr, backend_start FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}';"
         env:
           PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
-      - name: Terminate Existing Connections to Test Database
+      - name: Force Terminate All Connections to Database
         run: |
-          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DATABASE }} -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '${{ secrets.POSTGRES_DATABASE }}' AND pid <> pg_backend_pid();"
+          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DATABASE }} -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}';"
         env:
           PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
-      - name: Run backend tests for menu app  # Execute tests for the 'menu' app
+      - name: Run backend tests for menu app
         run: |
           cd Backend
           python manage.py test menu --noinput
 
-      - name: Run backend tests for multimedia app  # Execute tests for the 'multimedia' app
+      - name: Run backend tests for multimedia app
         run: |
           cd Backend
           python manage.py test multimedia --noinput
+
 
   build-and-push-backend:
     runs-on: ubuntu-latest

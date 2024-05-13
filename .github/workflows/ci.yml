@@ -11,19 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3  # Checkout the code
 
-      - name: Set up Python 3
+      - name: Set up Python 3  # Setup Python environment
         uses: actions/setup-python@v3
         with:
           python-version: '3.10'
 
-      - name: Install backend dependencies
+      - name: Install backend dependencies  # Install backend Python dependencies
         run: pip install -r Backend/requirements.txt
 
-      - name: List Active Connections Before Termination
+      - name: Check database service status  # Ensure the database service is running
         run: |
-          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DATABASE }} -c "SELECT pid, usename, application_name, client_addr, backend_start FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}';"
+          if ! pg_isready -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }}; then
+            echo "Database service is not running. Attempting to restart..."
+            sudo service postgresql restart  # This command may vary based on your CI environment
+          else
+            echo "Database service is running."
+          fi
         env:
           PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
@@ -42,6 +47,7 @@ jobs:
         run: |
           cd Backend
           python manage.py test multimedia --noinput
+
 
 
   build-and-push-backend:

@@ -8,48 +8,49 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Specifies the runner environment. Here, it's the latest Ubuntu.
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code  # Check out the repository content to the runner.
+        uses: actions/checkout@v3
 
-      - name: Set up Python 3
+      - name: Set up Python 3.10  # Set up a Python environment using the version 3.10.
         uses: actions/setup-python@v3
         with:
           python-version: '3.10'
 
-      - name: Install backend dependencies
+      - name: Install backend dependencies  # Install the required Python packages specified in the requirements.txt file.
         run: pip install -r Backend/requirements.txt
 
-      - name: Check Active Connections
-        run: |
-          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -c "SELECT pid, usename, state, query FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}';"
-        env:
-          PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-
-      - name: Terminate Idle Connections
-        run: |
-          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}' AND state = 'idle';"
-        env:
-          PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-
-      - name: Verify Database Service Status
+      - name: Check database service status  # Check if the PostgreSQL server is ready to accept connections.
         run: |
           if ! pg_isready -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }}; then
             echo "Database service is not running. Attempting to restart..."
-            sudo service postgresql restart
+            sudo service postgresql restart  # Restart PostgreSQL service if not running. Adjust based on your CI environment.
           else
             echo "Database service is running."
           fi
         env:
           PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
-      - name: Run backend tests for menu app
+      - name: Check Active Connections  # Display active connections to ensure the database can be connected securely.
+        run: |
+          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DATABASE }} -c "SELECT pid, usename, state, query FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}';" sslmode=require
+        env:
+          PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+      - name: Force Terminate All Connections to Database  # Forcefully terminate any active connections to allow test database recreation.
+        run: |
+          psql -h ${{ secrets.POSTGRES_HOST }} -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DATABASE }} -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '${{ secrets.POSTGRES_DATABASE }}' AND state = 'idle';" sslmode=require
+        env:
+          PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+      - name: Run backend tests for menu app  # Execute unit tests for the 'menu' application component.
         run: |
           cd Backend
           python manage.py test menu --noinput
 
-      - name: Run backend tests for multimedia app
+      - name: Run backend tests for multimedia app  # Execute unit tests for the 'multimedia' application component.
         run: |
           cd Backend
           python manage.py test multimedia --noinput

@@ -102,10 +102,16 @@ DATABASES = {
         'HOST': os.getenv('POSTGRES_HOST', 'ep-gentle-bush-a4t30q1a-pooler.us-east-1.aws.neon.tech'),
         'PORT': '5432',
         'OPTIONS': {
-            'sslmode': 'require',  # Usa SSL para mayor seguridad
-        }
+            'sslmode': 'require',  # Uses SSL for increased security
+        },
+        'TEST': {
+            'NAME': os.getenv('POSTGRES_TEST_DATABASE', 'test_verceldb'),  # Optional: specify a separate test database name
+            'SERIALIZE': False,  # If your tests do not rely on serialized rollbacks, this can be set to False for performance benefits
+            'MIRROR': 'default',  # Optional: Use if the test database should mirror the settings of the default database
+        },
     }
 }
+
 
 
 

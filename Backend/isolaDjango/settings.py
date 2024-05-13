@@ -103,12 +103,8 @@ DATABASES = {
         'PORT': '5432',
         'OPTIONS': {
             'sslmode': 'require',  # Usa SSL para mayor seguridad
-        },
-	'TEST': {
-            'SERIALIZE': False,
-            'NAME': None,  # This uses a temporary database for each test
-	},
-    },
+        }
+    }
 }
 
 

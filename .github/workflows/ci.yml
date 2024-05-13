@@ -27,11 +27,6 @@ jobs:
         env:
           PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
-      - name: Flush and recreate the test database  # Prepare test database
-        run: |
-          cd Backend
-          python manage.py flush --noinput
-
       - name: Run backend tests for menu app  # Execute tests for the 'menu' app
         run: |
           cd Backend

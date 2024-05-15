@@ -30,10 +30,9 @@ for console_id in $console_ids; do
   curl -X DELETE -H "Authorization: Token ${PA_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/consoles/$console_id/"
 done
 
-# Ejecutar comandos de despliegue en una nueva consola
+# Ejecutar comandos de despliegue en una nueva consola Bash
 debug "Ejecutando comandos de despliegue en PythonAnywhere..."
-deploy_output=$(curl -X POST -H "Authorization: Token ${PA_API_TOKEN}" \
-  -d "commands=cd /home/${PA_USER} && \
+deploy_commands="cd /home/${PA_USER} && \
   tar xzf ${REPO_NAME}.tar.gz && \
   rm ${REPO_NAME}.tar.gz && \
   cd ${PROJECT_DIR} && \
@@ -41,7 +40,11 @@ deploy_output=$(curl -X POST -H "Authorization: Token ${PA_API_TOKEN}" \
   pip install -r requirements.txt && \
   python manage.py collectstatic --noinput && \
   python manage.py migrate && \
-  pa_reload_webapp your_webapp_name.pythonanywhere.com" \
+  pa_reload_webapp your_webapp_name.pythonanywhere.com"
+
+deploy_output=$(curl -s -X POST -H "Authorization: Token ${PA_API_TOKEN}" \
+  -d "executable=/bin/bash" \
+  -d "arguments=-c \"$deploy_commands\"" \
   "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/consoles/?start_bash_console=true")
 
 if [[ $deploy_output == *"\"status\": \"ok\""* ]]; then

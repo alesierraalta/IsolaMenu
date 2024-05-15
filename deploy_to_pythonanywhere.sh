@@ -9,7 +9,10 @@ REPO_NAME=${GITHUB_REPOSITORY##*/}
 # Subir el código a PythonAnywhere
 echo "Subiendo el código a PythonAnywhere..."
 tar czf /tmp/${REPO_NAME}.tar.gz .
-curl -X POST -F "tarball=@/tmp/${REPO_NAME}.tar.gz" -H "Authorization: Token ${PA_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/files/path/${REPO_NAME}.tar.gz"
+curl -X POST -F "content=@/tmp/${REPO_NAME}.tar.gz" -H "Authorization: Token ${PA_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/files/path/${REPO_NAME}.tar.gz"
+
+# Añadir la clave del host de PythonAnywhere al archivo known_hosts
+ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts
 
 # Desempaquetar el tarball en PythonAnywhere y recargar la aplicación web
 ssh ${PA_USER}@ssh.pythonanywhere.com <<EOF

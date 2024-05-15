@@ -13,24 +13,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up SSH
+    - name: Deploy to PythonAnywhere using API
       run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.PYTHONANYWHERE_SSH_KEY }}" | base64 --decode > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-
-    - name: Configure SSH
-      run: |
-        echo "Host ssh.pythonanywhere.com
-              User ${PYTHONANYWHERE_USERNAME}
-              IdentityFile ~/.ssh/id_rsa
-              StrictHostKeyChecking no
-              UserKnownHostsFile /dev/null" > ~/.ssh/config
-
-    - name: Deploy to PythonAnywhere
-      run: |
-        chmod +x ./deploy_to_pythonanywhere.sh
-        ./deploy_to_pythonanywhere.sh
+        chmod +x ./deploy_to_pythonanywhere_api.sh
+        ./deploy_to_pythonanywhere_api.sh
       env:
         PYTHONANYWHERE_USERNAME: ${{ secrets.PYTHONANYWHERE_USERNAME }}
         PYTHONANYWHERE_API_TOKEN: ${{ secrets.PYTHONANYWHERE_API_TOKEN }}

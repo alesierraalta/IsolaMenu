@@ -44,8 +44,8 @@ deploy_commands="cd /home/${PA_USER} && \
 
 deploy_output=$(curl -s -X POST -H "Authorization: Token ${PA_API_TOKEN}" \
   -d "executable=/bin/bash" \
-  -d "arguments=-c \"$deploy_commands\"" \
-  "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/consoles/?start_bash_console=true")
+  -d "arguments=-c \"${deploy_commands}\"" \
+  "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/consoles/")
 
 if [[ $deploy_output == *"\"status\": \"ok\""* ]]; then
   debug "Despliegue completado con éxito"

@@ -46,7 +46,7 @@ fi
 
 # Probar la conexión SSH con depuración avanzada
 debug "Probando la conexión SSH..."
-ssh_output=$(ssh -vvv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -T ${PA_USER}@ssh.pythonanywhere.com "echo 'Conexión SSH exitosa'" 2>&1)
+ssh_output=$(ssh -vvv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o LogLevel=DEBUG3 -T ${PA_USER}@ssh.pythonanywhere.com "echo 'Conexión SSH exitosa'" 2>&1)
 ssh_exit_code=$?
 
 if [ $ssh_exit_code -eq 0 ]; then
@@ -59,7 +59,7 @@ fi
 
 # Desempaquetar el tarball en PythonAnywhere y recargar la aplicación web
 debug "Ejecutando comandos de despliegue en PythonAnywhere..."
-ssh_output=$(ssh -vvv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -T ${PA_USER}@ssh.pythonanywhere.com << EOF
+ssh_output=$(ssh -vvv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o LogLevel=DEBUG3 -T ${PA_USER}@ssh.pythonanywhere.com << EOF
   set -e
   echo "Conectado a PythonAnywhere"
   if cd /home/${PA_USER}/IsolaMenu; then

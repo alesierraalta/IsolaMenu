@@ -28,19 +28,27 @@ else
   exit 1
 fi
 
-# Añadir la clave del host de PythonAnywhere al archivo known_hosts
-if ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts; then
-  debug "Clave del host de PythonAnywhere añadida correctamente."
-else
-  debug "Error: Falló la adición de la clave del host de PythonAnywhere"
-  exit 1
-fi
-
 # Configurar la clave privada SSH
 if echo "${PYTHONANYWHERE_SSH_KEY}" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa; then
   debug "Clave privada SSH configurada correctamente."
 else
   debug "Error: Falló la configuración de la clave privada SSH"
+  exit 1
+fi
+
+# Configurar el archivo ssh_config
+debug "Configurando ~/.ssh/config"
+echo "Host ssh.pythonanywhere.com
+  User ${PA_USER}
+  IdentityFile ~/.ssh/id_rsa
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null" > ~/.ssh/config
+
+# Añadir la clave del host de PythonAnywhere al archivo known_hosts
+if ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts; then
+  debug "Clave del host de PythonAnywhere añadida correctamente."
+else
+  debug "Error: Falló la adición de la clave del host de PythonAnywhere"
   exit 1
 fi
 

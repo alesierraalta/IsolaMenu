@@ -2,6 +2,8 @@
 
 # Ignorar directorios de desarrollo
 node_modules
+frontend/
+node_modules/
 __pycache__
 *.pyc
 

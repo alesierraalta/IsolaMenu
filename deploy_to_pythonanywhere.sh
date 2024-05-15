@@ -10,7 +10,7 @@ debug() {
 
 # Verificar variables de entorno
 if [[ -z "$PYTHONANYWHERE_USERNAME" || -z "$PYTHONANYWHERE_API_TOKEN" ]]; then
-  echo "[ERROR]: PYTHONANYWHERE_USERNAME y PYTHONANYWHERE_API_TOKEN deben estar configurados."
+  echo "[ERROR]: PYTHONANYWHERE_USERNAME y PYTHONANYWHERE_API_TOKEN deben estar configurados. No se pudo porque: una o ambas variables de entorno no están definidas."
   exit 1
 fi
 
@@ -25,7 +25,7 @@ upload_response=$(curl -s -w "%{http_code}" -o /dev/null -F "file=@${TAR_FILE}" 
 
 if [[ $upload_response -ne 200 ]]; then
   echo "[ERROR]: Falló la subida del archivo. No se pudo porque: el código de respuesta HTTP fue $upload_response. Esto puede deberse a problemas de red, autenticación fallida, o un archivo demasiado grande."
-  exit 1
+  exit 26
 fi
 
 debug "Código subido correctamente."
@@ -35,7 +35,7 @@ debug "Obteniendo consolas activas..."
 active_consoles=$(curl -s -H "Authorization: Token ${PYTHONANYWHERE_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PYTHONANYWHERE_USERNAME}/consoles/")
 if [[ $? -ne 0 ]]; then
   echo "[ERROR]: No se pudieron obtener las consolas activas. No se pudo porque: puede haber un problema con la conexión a la API de PythonAnywhere o el token de autenticación no es válido."
-  exit 1
+  exit 26
 fi
 
 console_ids=$(echo $active_consoles | jq -r '.[].id')
@@ -44,7 +44,7 @@ for console_id in $console_ids; do
   kill_response=$(curl -s -w "%{http_code}" -o /dev/null -X DELETE -H "Authorization: Token ${PYTHONANYWHERE_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PYTHONANYWHERE_USERNAME}/consoles/$console_id/")
   if [[ $kill_response -ne 204 ]]; then
     echo "[ERROR]: Falló al matar la consola ID: $console_id. No se pudo porque: el código de respuesta HTTP fue $kill_response. Esto puede deberse a que la consola no existe o problemas de autenticación."
-    exit 1
+    exit 26
   fi
 done
 
@@ -68,9 +68,9 @@ execute_response=$(curl -s -w "%{http_code}" -o /dev/null -X POST -H "Authorizat
   -d "{\"executable\":\"/bin/bash\", \"arguments\":\"-c \\\"${deploy_commands}\\\"\"}" \
   "https://www.pythonanywhere.com/api/v0/user/${PYTHONANYWHERE_USERNAME}/consoles/")
 
-if [[ $? -ne 0 ]]; then
-  echo "[ERROR]: Falló la ejecución de comandos en PythonAnywhere. No se pudo porque: puede haber un problema con la conexión a la API de PythonAnywhere o los comandos de despliegue pueden estar mal formateados."
-  exit 1
+if [[ $execute_response -ne 200 ]]; then
+  echo "[ERROR]: Falló la ejecución de comandos en PythonAnywhere. No se pudo porque: el código de respuesta HTTP fue $execute_response. Puede haber un problema con la conexión a la API de PythonAnywhere o los comandos de despliegue pueden estar mal formateados."
+  exit 26
 fi
 
 debug "Comandos de despliegue ejecutados correctamente."

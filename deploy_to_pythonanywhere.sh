@@ -17,15 +17,15 @@ mkdir -p ~/.ssh
 ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts
 
 # Configurar la clave privada SSH
-echo "${PYTHONANYWHERE_SSH_KEY}" > ~/.ssh/id_rsa
+echo "${PYTHONANYWHERE_SSH_KEY}" | tr -d '\r' > ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
 # Desempaquetar el tarball en PythonAnywhere y recargar la aplicación web
-ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${PA_USER}@ssh.pythonanywhere.com <<EOF
+ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${PA_USER}@ssh.pythonanywhere.com << 'EOF'
   cd ${PROJECT_DIR}
   tar xzf /home/${PA_USER}/${REPO_NAME}.tar.gz
   rm /home/${PA_USER}/${REPO_NAME}.tar.gz
-  workon your_virtualenv  # Activa tu entorno virtual
+  source /home/${PA_USER}/.virtualenvs/your_virtualenv/bin/activate  # Activa tu entorno virtual
   pip install -r Backend/requirements.txt
   python Backend/manage.py collectstatic --noinput
   python Backend/manage.py migrate

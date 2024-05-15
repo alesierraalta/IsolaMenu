@@ -3,13 +3,13 @@
 # Variables
 PA_USER=${PYTHONANYWHERE_USERNAME}
 PA_API_TOKEN=${PYTHONANYWHERE_API_TOKEN}
-PROJECT_DIR=/home/$PA_USER/IsolaMenu  # Cambia esto por tu directorio de proyecto en PythonAnywhere
+PROJECT_DIR=/home/$PA_USER/IsolaMenu  # Ruta del proyecto en PythonAnywhere
 REPO_NAME=${GITHUB_REPOSITORY##*/}
 
 # Subir el código a PythonAnywhere
 echo "Subiendo el código a PythonAnywhere..."
 tar czf /tmp/${REPO_NAME}.tar.gz .
-curl -X POST -F "tarball=@/tmp/${REPO_NAME}.tar.gz" -H "Authorization: Token ${PA_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/files/path/to/your/directory/${REPO_NAME}.tar.gz"
+curl -X POST -F "tarball=@/tmp/${REPO_NAME}.tar.gz" -H "Authorization: Token ${PA_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/files/path/${REPO_NAME}.tar.gz"
 
 # Desempaquetar el tarball en PythonAnywhere y recargar la aplicación web
 ssh ${PA_USER}@ssh.pythonanywhere.com <<EOF

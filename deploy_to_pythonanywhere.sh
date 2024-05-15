@@ -32,6 +32,7 @@ done
 
 # Ejecutar comandos de despliegue en una nueva consola Bash
 debug "Ejecutando comandos de despliegue en PythonAnywhere..."
+# Asegúrate de que los comandos están correctamente formateados
 deploy_commands="cd /home/${PA_USER} && \
   tar xzf ${REPO_NAME}.tar.gz && \
   rm ${REPO_NAME}.tar.gz && \
@@ -41,7 +42,7 @@ deploy_commands="cd /home/${PA_USER} && \
   python manage.py collectstatic --noinput && \
   python manage.py migrate && \
   pa_reload_webapp your_webapp_name.pythonanywhere.com"
-
+  
 deploy_output=$(curl -s -X POST -H "Authorization: Token ${PA_API_TOKEN}" \
   -d "executable=/bin/bash" \
   -d "arguments=-c \"${deploy_commands}\"" \

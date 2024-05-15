@@ -2,7 +2,7 @@
 
 # Variables
 PA_USER=${PYTHONANYWHERE_USERNAME}
-PROJECT_DIR=/home/$PA_USER/IsolaMenu  # Ruta del proyecto en PythonAnywhere
+PROJECT_DIR="/home/$PA_USER/IsolaMenu"  # Ruta del proyecto en PythonAnywhere
 REPO_NAME=${GITHUB_REPOSITORY##*/}
 
 # Subir el código a PythonAnywhere
@@ -21,13 +21,13 @@ echo "${PYTHONANYWHERE_SSH_KEY}" | tr -d '\r' > ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
 # Desempaquetar el tarball en PythonAnywhere y recargar la aplicación web
-ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -t ${PA_USER}@ssh.pythonanywhere.com << 'EOF'
+ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${PA_USER}@ssh.pythonanywhere.com << EOF
   cd ${PROJECT_DIR}
-  tar xzf /home/${PA_USER}/${REPO_NAME}.tar.gz
+  tar xzf /home/${PA_USER}/${REPO_NAME}.tar.gz -C ${PROJECT_DIR}
   rm /home/${PA_USER}/${REPO_NAME}.tar.gz
   source /home/${PA_USER}/.virtualenvs/your_virtualenv/bin/activate  # Activa tu entorno virtual
-  pip install -r Backend/requirements.txt
-  python Backend/manage.py collectstatic --noinput
-  python Backend/manage.py migrate
+  pip install -r ${PROJECT_DIR}/Backend/requirements.txt
+  python ${PROJECT_DIR}/Backend/manage.py collectstatic --noinput
+  python ${PROJECT_DIR}/Backend/manage.py migrate
   pa_reload_webapp your_webapp_name.pythonanywhere.com
 EOF

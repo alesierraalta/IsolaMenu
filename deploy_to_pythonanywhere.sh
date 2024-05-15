@@ -20,14 +20,18 @@ ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts
 echo "${PYTHONANYWHERE_SSH_KEY}" | tr -d '\r' > ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
+# Instalar sshpass
+sudo apt-get update
+sudo apt-get install -y sshpass
+
 # Desempaquetar el tarball en PythonAnywhere y recargar la aplicación web
-ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -T ${PA_USER}@ssh.pythonanywhere.com << 'EOF'
-  cd /home/${PA_USER}/IsolaMenu
-  tar xzf /home/${PA_USER}/${REPO_NAME}.tar.gz -C /home/${PA_USER}/IsolaMenu
-  rm /home/${PA_USER}/${REPO_NAME}.tar.gz
-  source /home/${PA_USER}/.virtualenvs/your_virtualenv/bin/activate  # Activa tu entorno virtual
-  pip install -r /home/${PA_USER}/IsolaMenu/Backend/requirements.txt
-  python /home/${PA_USER}/IsolaMenu/Backend/manage.py collectstatic --noinput
-  python /home/${PA_USER}/IsolaMenu/Backend/manage.py migrate
-  pa_reload_webapp your_webapp_name.pythonanywhere.com
-EOF
+sshpass -p "${PYTHONANYWHERE_PASSWORD}" ssh -o StrictHostKeyChecking=no ${PA_USER}@ssh.pythonanywhere.com "
+  cd /home/${PA_USER}/IsolaMenu;
+  tar xzf /home/${PA_USER}/${REPO_NAME}.tar.gz -C /home/${PA_USER}/IsolaMenu;
+  rm /home/${PA_USER}/${REPO_NAME}.tar.gz;
+  source /home/${PA_USER}/.virtualenvs/your_virtualenv/bin/activate;
+  pip install -r /home/${PA_USER}/IsolaMenu/Backend/requirements.txt;
+  python /home/${PA_USER}/IsolaMenu/Backend/manage.py collectstatic --noinput;
+  python /home/${PA_USER}/IsolaMenu/Backend/manage.py migrate;
+  pa_reload_webapp your_webapp_name.pythonanywhere.com;
+"

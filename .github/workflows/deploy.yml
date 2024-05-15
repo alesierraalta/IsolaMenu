@@ -15,8 +15,8 @@ jobs:
 
     - name: Deploy to PythonAnywhere using API
       run: |
-        chmod +x ./deploy_to_pythonanywhere_api.sh
-        ./deploy_to_pythonanywhere_api.sh
+        chmod +x ./deploy_to_pythonanywhere.sh
+        ./deploy_to_pythonanywhere.sh
       env:
         PYTHONANYWHERE_USERNAME: ${{ secrets.PYTHONANYWHERE_USERNAME }}
         PYTHONANYWHERE_API_TOKEN: ${{ secrets.PYTHONANYWHERE_API_TOKEN }}

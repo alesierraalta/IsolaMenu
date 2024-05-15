@@ -1,26 +1,20 @@
 {
+  "version": 2,
   "builds": [
     {
-      "src": "backend/manage.py",
+      "src": "Backend/manage.py",
       "use": "@vercel/python"
     },
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build",
-        "buildCommand": "npm run build"
-      }
+      "src": "Backend/isolaDjango/wsgi.py",
+      "use": "@vercel/python",
+      "config": { "maxLambdaSize": "50mb" }
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/backend/manage.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/frontend/build/index.html"
+      "dest": "Backend/isolaDjango/wsgi.py"
     }
   ]
 }

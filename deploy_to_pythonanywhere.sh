@@ -3,8 +3,8 @@
 # Variables
 PA_USER=${PYTHONANYWHERE_USERNAME}
 PA_API_TOKEN=${PYTHONANYWHERE_API_TOKEN}
-PROJECT_DIR="/home/$PA_USER/IsolaMenu"  # Ruta del proyecto en PythonAnywhere
 REPO_NAME=${GITHUB_REPOSITORY##*/}
+PROJECT_DIR="/home/$PA_USER/IsolaMenu"
 
 # Función de depuración
 debug() {
@@ -21,7 +21,16 @@ else
   exit 1
 fi
 
-# Desempaquetar el tarball en PythonAnywhere y recargar la aplicación web
+# Obtener consolas activas y matarlas
+debug "Obteniendo consolas activas..."
+active_consoles=$(curl -s -H "Authorization: Token ${PA_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/consoles/")
+console_ids=$(echo $active_consoles | jq -r '.[].id')
+for console_id in $console_ids; do
+  debug "Matando consola ID: $console_id"
+  curl -X DELETE -H "Authorization: Token ${PA_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/consoles/$console_id/"
+done
+
+# Ejecutar comandos de despliegue en una nueva consola
 debug "Ejecutando comandos de despliegue en PythonAnywhere..."
 deploy_output=$(curl -X POST -H "Authorization: Token ${PA_API_TOKEN}" \
   -d "commands=cd /home/${PA_USER} && \

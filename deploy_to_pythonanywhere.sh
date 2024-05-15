@@ -13,7 +13,7 @@ debug() {
 # Subir el código a PythonAnywhere
 debug "Subiendo el código a PythonAnywhere..."
 tar czf /tmp/${REPO_NAME}.tar.gz .
-if curl -X POST -F "content=@/tmp/${REPO_NAME}.tar.gz" -H "Authorization: Token ${PYTHONANYWHERE_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/files/path${PROJECT_DIR}/${REPO_NAME}.tar.gz"; then
+if curl -X POST -F "content=@/tmp/${REPO_NAME}.tar.gz" -H "Authorization: Token ${PYTHONANYWHERE_API_TOKEN}" "https://www.pythonanywhere.com/api/v0/user/${PA_USER}/files/path/home/${PA_USER}/${REPO_NAME}.tar.gz"; then
   debug "Código subido correctamente."
 else
   debug "Error: Falló la subida del código a PythonAnywhere"

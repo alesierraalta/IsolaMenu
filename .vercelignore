@@ -6,6 +6,10 @@ frontend/
 node_modules/
 __pycache__
 *.pyc
+.github/
+.dockerignore
+README.md
+docker-compose.yml
 
 # Ignorar archivos de configuración de desarrollo
 .vscode

@@ -44,9 +44,9 @@ else
   exit 1
 fi
 
-# Probar la conexión SSH
+# Probar la conexión SSH con depuración avanzada
 debug "Probando la conexión SSH..."
-if ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -T ${PA_USER}@ssh.pythonanywhere.com "echo 'Conexión SSH exitosa'"; then
+if ssh -vvv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -T ${PA_USER}@ssh.pythonanywhere.com "echo 'Conexión SSH exitosa'"; then
   debug "Conexión SSH exitosa."
 else
   debug "Error: Falló la prueba de conexión SSH"

@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # Asegúrate de ajustarlo correctamente para producción
 
@@ -98,12 +98,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('POSTGRES_DATABASE', 'verceldb'),
         'USER': os.getenv('POSTGRES_USER', 'default'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'mz95QWdpVHYC'),
-        'HOST': os.getenv('POSTGRES_HOST', 'ep-gentle-bush-a4t30q1a-pooler.us-east-1.aws.neon.tech'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'y7AnpXMtWq8w'),
+        'HOST': os.getenv('POSTGRES_HOST', 'ep-misty-dust-a4d33qy0-pooler.us-east-1.aws.neon.tech'),
         'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',  # Uses SSL for increased security
-        },
         'TEST': {
             'NAME': os.getenv('POSTGRES_TEST_DATABASE', 'test_verceldb'),  # Optional: specify a separate test database name
             'SERIALIZE': False,  # If your tests do not rely on serialized rollbacks, this can be set to False for performance benefits
@@ -111,6 +108,7 @@ DATABASES = {
         },
     }
 }
+
 
 
 
@@ -152,7 +150,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# Añadir esta línea
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

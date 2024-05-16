@@ -29,7 +29,13 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']  # Asegúrate de ajustarlo correctamente para producción
+ALLOWED_HOSTS = [
+    'backend-668318878', 
+    '45eba246-693a-499c-a4bb-65061d9662be-dev.e1-us-east-azure.choreoapis.dev',
+    'localhost', 
+    '127.0.0.1'
+]
+  # Asegúrate de ajustarlo correctamente para producción
 
 
 
@@ -64,6 +70,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'isolaDjango.urls'
@@ -151,9 +158,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# Añadir esta línea
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -161,5 +167,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3001",  # Añade aquí el dominio de tu aplicación React
+    "http://localhost:3001",  # Añade aquí el dominio de tu aplicación React si corresponde
+    "https://45eba246-693a-499c-a4bb-65061d9662be-dev.e1-us-east-azure.choreoapis.dev"
 ]

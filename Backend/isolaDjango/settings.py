@@ -103,11 +103,11 @@ WSGI_APPLICATION = 'isolaDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DATABASE', 'verceldb'),
-        'USER': os.getenv('POSTGRES_USER', 'default'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'y7AnpXMtWq8w'),
-        'HOST': os.getenv('POSTGRES_HOST', 'ep-misty-dust-a4d33qy0-pooler.us-east-1.aws.neon.tech'),
-        'PORT': '5432',
+        'NAME': os.getenv('POSTGRES_DATABASE'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT'),
         'TEST': {
             'NAME': os.getenv('POSTGRES_TEST_DATABASE', 'test_verceldb'),  # Optional: specify a separate test database name
             'SERIALIZE': False,  # If your tests do not rely on serialized rollbacks, this can be set to False for performance benefits

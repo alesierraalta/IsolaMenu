@@ -83,11 +83,7 @@ DATABASES = {
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
         'HOST': os.getenv('POSTGRES_HOST'),
         'PORT': os.getenv('POSTGRES_PORT'),
-        'TEST': {
-            'NAME': os.getenv('POSTGRES_TEST_DATABASE', 'test_defaultdb'),
-            'SERIALIZE': False,
-            'MIRROR': 'default',
-        },
+        'CONN_MAX_AGE': 600,  # Mantener conexiones abiertas durante 10 minutos
     }
 }
 

@@ -3,8 +3,13 @@ from .models import Categoria, Comida
 from .serializers import CategoriaSerializer, ComidaSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import JsonResponse
 
-
+def example_view(request):
+    if request.method == 'GET':
+        return JsonResponse({'message': 'Hello, world!'})
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
 
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()

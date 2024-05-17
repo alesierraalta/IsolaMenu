@@ -3,7 +3,6 @@ from django.urls import path, include
 from django.http import HttpResponse
 
 def home(request):
-    # Vista simple para la página de inicio
     return HttpResponse("¡Hola, Django React!")
 
 urlpatterns = [

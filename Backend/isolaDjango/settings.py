@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # No ejecutar con debug activado en producción
-DEBUG = False
+DEBUG = True
 
 # Configuración de hosts permitidos
 ALLOWED_HOSTS = [
@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'isolaDjango.middleware.CustomErrorMiddleware',
 ]
 
 # Configuración de URLs
@@ -117,3 +118,17 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "https://45eba246-693a-499c-a4bb-65061d9662be-dev.e1-us-east-azure.choreoapis.dev"
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',  # Cambia a 'DEBUG' para obtener más detalles
+    },
+}

@@ -1,28 +1,17 @@
+import os
 from pathlib import Path
 from dotenv import load_dotenv
-import os
 
-# Cargar variables de entorno desde el archivo .env
-load_dotenv()
+load_dotenv()  # Cargar variables de entorno desde el archivo .env
 
-# Construir rutas dentro del proyecto como este: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Clave secreta para producción
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-# No ejecutar con debug activado en producción
-DEBUG = True
+DEBUG = False
 
-# Configuración de hosts permitidos
-ALLOWED_HOSTS = [
-    'backend-668318878', 
-    '45eba246-693a-499c-a4bb-65061d9662be-dev.e1-us-east-azure.choreoapis.dev',
-    'localhost', 
-    '127.0.0.1'
-]
+ALLOWED_HOSTS = ['*']
 
-# Definición de aplicaciones instaladas
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,10 +26,9 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-# Definición de middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Asegúrate de tener esta línea
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -48,13 +36,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'isolaDjango.middleware.CustomErrorMiddleware',
 ]
 
-# Configuración de URLs
 ROOT_URLCONF = 'isolaDjango.urls'
 
-# Configuración de plantillas
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -71,10 +56,8 @@ TEMPLATES = [
     },
 ]
 
-# Configuración de WSGI
 WSGI_APPLICATION = 'isolaDjango.wsgi.application'
 
-# Configuración de base de datos
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -83,48 +66,41 @@ DATABASES = {
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
         'HOST': os.getenv('POSTGRES_HOST'),
         'PORT': os.getenv('POSTGRES_PORT'),
-        'CONN_MAX_AGE': 600,  # Mantener conexiones abiertas durante 10 minutos
+        'CONN_MAX_AGE': 600,
     }
 }
 
-# Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
-# Internacionalización
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
+
 USE_TZ = True
 
-# Archivos estáticos
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Configuración para WhiteNoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Definición del campo clave primaria por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
-    "https://45eba246-693a-499c-a4bb-65061d9662be-dev.e1-us-east-azure.choreoapis.dev"
 ]
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',  # Cambia a 'DEBUG' para obtener más detalles
-    },
-}
